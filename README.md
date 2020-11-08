@@ -3,11 +3,29 @@
 Work developed by **José Rosa** and **Ricardo Silva** as 1st Assigment of Computer Vision - MEE - ESTG.
 
 ### Images
-![Image of Mean Filter](code_python/1.1/output_MeanFilter.png)
-![Image of Sobel Filter Magnitude and Orientation](code_python/1.2/output_SobelFilter_MagAng.png)
-![Image of Custom Harris Detector](code_python/my_Harris/output_CustomHarrisCornerDetector.png)
-![Image of CLI Help](CLI_1.png)
-![Image of CLI Run](CLI_2.png)
+<table>
+  <tr>
+    <td>
+      <img alt="Image of Mean Filter" src="code_python/1.1/output_MeanFilter.png" width="100%">
+    </td>
+    <td>
+      <img alt="Image of Sobel Filter Magnitude and Orientation" src="code_python/1.2/output_SobelFilter_MagAng.png" width="100%">
+    </td>
+    <td>
+      <img alt="Image of Custom Harris Detector" src="code_python/my_Harris/output_CustomHarrisCornerDetector.png" width="100%">
+    </td>
+  </tr>
+</table>
+<table>
+  <tr>
+   <td>
+      <img alt="Image of CLI Help" src="CLI_1.png" width="100%">
+    </td>
+   <td>
+      <img alt="Image of CLI Run" src="CLI_2.png" width="100%">
+    </td>
+  </tr>
+</table>
 
 ### Run
 ###### Help Commands
@@ -40,7 +58,7 @@ python -i harris-detector-animate.py --bsizes [3,5,7,9,11] --ksizes [5,7,9,15,21
 ### Known Issues:
 - Issue: Figures don't show when running a command.
   - Fix: Run the command with python in Interactive Mode. After execution you can exit Interacrive Mode pressing CTRL+Z. Note that if you exit Interactive Mode all opened figure windows will be closed.
-  ![Image of CLI Interactive Mode](CLI_4.png)
+  <img alt="Image of CLI Interactive Mode" src="CLI_4.png" width="33%">
 - Issue: Figures windows text is overlapped.
   - This is caused by your resolution being not the same as the authors. You can open the `util.py` script and change the `dpi` parameter.
 - Issue: Scripts aren't running. :cry:
