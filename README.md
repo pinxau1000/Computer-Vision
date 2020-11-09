@@ -43,16 +43,16 @@ python edge-extract.py --help
 ###### Example Commands
 Syntax: `python <script_name.py> [function] --[parameter] [value]`
 ```sh
-python -i noise-remove.py gaussian-filter-sigma --sigma_x [0.25,0.5] --sigma_y [0.1,1] --crop_corner [10,10] --crop_size 16
+python noise-remove.py gaussian-filter-sigma --sigma_x [0.25,0.5] --sigma_y [0.1,1] --crop_corner [10,10] --crop_size 16
 ```
 ```sh
-python -i bilateral-filter.py --diameters [5,15] --sigma_c 200
+python bilateral-filter.py --diameters [5,15] --sigma_c 200
 ```
 ```sh
-python -i edge-extract.py sobel-filter-ddepth --ksize 3 --threshold 0.25
+python edge-extract.py sobel-filter-ddepth --ksize 3 --threshold 0.25
 ```
 ```sh
-python -i harris-detector-animate.py --bsizes [3,5,7,9,11] --ksizes [5,7,9,15,21] --ks [0,0.01,0.02,0.04,0.06,0.08]
+python harris-detector-animate.py --bsizes [3,5,7,9,11] --ksizes [5,7,9,15,21] --ks [0,0.01,0.02,0.04,0.06,0.08]
 ```
 
 ### Known Issues:
@@ -77,34 +77,34 @@ python -i harris-detector-animate.py --bsizes [3,5,7,9,11] --ksizes [5,7,9,15,21
        Get list of functions: `python noise-remove.py --help`
        Example: 
        ```sh
-       python -i noise-remove.py original-pictures
+       python noise-remove.py original-pictures
        ```
    - 1.2: Source code that implemente edge extraction algoritms
      - edge-extract.py: Wraps all the scripts.
        Get list of functions: ```python edge-extract.py --help```
        Example:
        ```sh
-       python -i edge-extract.py sobel-filter
+       python edge-extract.py sobel-filter
        ```
    - 1.3: Source code that implemente corner extract algoritms
      - corner-extract.py: Wraps all the scripts.
        Get list of functions: ```python corner-extract.py --help```
        Example:
        ```sh
-       python -i corner-extract.py harris-detector
+       python corner-extract.py harris-detector
        ```
    - my_Harris:
      - my-harris.py: Custom Harris Implementation.
        Get list of parameters: ```python my-harris.py --help```
        Example:
        ```sh
-       python -i my-harris.py
+       python my-harris.py
        ```
      - my-harris-compare.py: Comparison between Custom Harris Implementation and OpenCV Harris.
        Get list of parameters: ```python my-harris-compare.py --help```
        Example:
        ```sh
-       python -i my-harris-compare.py
+       python my-harris-compare.py
        ```
    - Easy_Run.py: Prompts a console menu which helps the user to run a desired function.
  - data: Folder with images to use in the functions.
