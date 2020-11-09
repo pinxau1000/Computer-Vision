@@ -115,7 +115,17 @@ _FULL_PATH_ORIG = path.join(_PATH_2_DATA, _IMG_ORIG_NAME)
               default="output_SobelFilter_dataTypesProblems",
               type=str,
               help="The save name(s) of the output figure(s)")
-def sobel_filter_ddepth(image, ksize, threshold, filter_params, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def sobel_filter_ddepth(image, ksize, threshold, filter_params, save, dpi, num):
     image = util.load_image_RGB(image)
     filter_params = json.loads(filter_params)
 
@@ -170,12 +180,13 @@ def sobel_filter_ddepth(image, ksize, threshold, filter_params, save):
                           plot_titles,
                           show=True,
                           main_title="Sobel Derivatives Problems 1 - cv.Sobel",
-                          num=202,
-                          dpi=300,
-                          cmap="gray")
+                          cmap="gray",
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save + "_1")
+    if save != "None":
+        fig.savefig(save + "_1")
 
     image_1st_uint8 = np.copy(image)
     image_1st_float64 = np.copy(image)
@@ -195,16 +206,22 @@ def sobel_filter_ddepth(image, ksize, threshold, filter_params, save):
                    image_2nd_float64, image_2nd_uint8]
     plot_titles = ["dx=1 64F", "dx=1 8U", "dx=2 64F", "dx=2 8U"]
 
+    if num is not None:
+        num += 1
     # Plots the images.
     fig = util.plotImages(plot_images,
                           plot_titles,
                           show=True,
                           main_title="Sobel Derivatives Problems 2 - cv.Sobel",
-                          num=203,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save + "_2")
+    if save != "None":
+        fig.savefig(save + "_2")
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

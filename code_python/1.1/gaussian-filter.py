@@ -102,7 +102,17 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
               default="output_GaussianFilter",
               type=str,
               help="The save name(s) of the output figure(s)")
-def gaussian_filter(image, kernels, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def gaussian_filter(image, kernels, save, dpi, num):
     image = util.load_image_RGB(image)
     kernels = json.loads(kernels)
 
@@ -127,11 +137,15 @@ def gaussian_filter(image, kernels, save):
                           plot_titles,
                           show=True,
                           main_title="Gaussian Filter - cv.GaussianBlur",
-                          num=400,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

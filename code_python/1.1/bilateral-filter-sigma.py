@@ -118,7 +118,8 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
                    "d is proportional to sigmaSpace.")
 @click.option("--crop_corner",
               default=str([480, 110]),
-              help="The upper left corner of the crop area")
+              help="The upper left corner of the crop area as list. The point "
+                   "with coordinates x=480 and y=110 is passed as [480,110].")
 @click.option("--crop_size",
               default=64,
               type=int,
@@ -127,8 +128,18 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
               default="output_BilateralFilter_Sigma",
               type=str,
               help="The save name(s) of the output figure(s)")
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
 def bilateral_filter_sigma(image, diameter, sigma_c, sigma_s, crop_corner,
-                           crop_size, save):
+                           crop_size, save, dpi, num):
     image = util.load_image_RGB(image)
     sigma_c = json.loads(sigma_c)
     sigma_s = json.loads(sigma_s)
@@ -182,11 +193,15 @@ def bilateral_filter_sigma(image, diameter, sigma_c, sigma_s, crop_corner,
                           show=True,
                           main_title=f"Bilateral Filter Sigma @"
                                      f"D = {diameter} - cv.bilateralFilter",
-                          num=500,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

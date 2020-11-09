@@ -15,6 +15,7 @@ try:
     # https://github.com/pinxau1000/
 except ModuleNotFoundError:
     from urllib import request
+
     print("'util.py' not found on the same folder as this script!")
     _url_utilpy = "https://gist.githubusercontent.com/pinxau1000/8817d4ef0ed766c78bac8e6feafc8b47/raw/util.py"
     print("Downloading util.py from:\n" + _url_utilpy)
@@ -99,8 +100,19 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
 @click.option("--save",
               default="output_MeanFilter",
               type=str,
-              help="The save name(s) of the output figure(s)")
-def mean_filter(image, kernels, save):
+              help="The save name(s) of the output figure(s). If None didn't "
+                   "save the figure window.")
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def mean_filter(image, kernels, save, dpi, num):
     image = util.load_image_RGB(image)
     kernels = json.loads(kernels)
 
@@ -123,12 +135,18 @@ def mean_filter(image, kernels, save):
                           plot_titles,
                           show=True,
                           main_title="Mean Filter - cv.blur",
-                          num=200,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":
     mean_filter()
+
+

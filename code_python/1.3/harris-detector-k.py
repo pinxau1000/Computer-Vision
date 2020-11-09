@@ -118,7 +118,18 @@ _FULL_PATH_ORIG = path.join(_PATH_2_DATA, _IMG_ORIG_NAME)
               default="output_HarrisCornerDetector_HarrisParameter",
               type=str,
               help="The save name(s) of the output figure(s)")
-def harris_detector_k(image, bsize, ksize, ks, threshold, filter_params, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def harris_detector_k(image, bsize, ksize, ks, threshold, filter_params,
+                      save, dpi, num):
     image = util.load_image_RGB(image)
     ks = json.loads(ks)
     ks = np.round(ks, 2)
@@ -163,13 +174,17 @@ def harris_detector_k(image, bsize, ksize, ks, threshold, filter_params, save):
                           main_title="Harris Corner Detector - cv.cornerHarris"
                                      f"\n block size = {bsize}"
                                      f"\nsobel aperture = {ksize}",
-                          num=203,
-                          dpi=300,
                           cmap="gray",
-                          cols=3)
+                          cols=3,
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

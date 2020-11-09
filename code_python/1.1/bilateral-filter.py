@@ -120,7 +120,17 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
               default="output_BilateralFilter",
               type=str,
               help="The save name(s) of the output figure(s)")
-def bilateral_filter(image, diameters, sigma_c, sigma_s, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def bilateral_filter(image, diameters, sigma_c, sigma_s, save, dpi, num):
     image = util.load_image_RGB(image)
     diameters = json.loads(diameters)
 
@@ -148,11 +158,15 @@ def bilateral_filter(image, diameters, sigma_c, sigma_s, save):
                           show=True,
                           main_title=f"Bilateral Filter @ sigmaC = {sigma_c}, "
                                      f"sigmaS = {sigma_s} - cv.bilateralFilter",
-                          num=500,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

@@ -15,6 +15,7 @@ try:
     # https://github.com/pinxau1000/
 except ModuleNotFoundError:
     from urllib import request
+
     print("'util.py' not found on the same folder as this script!")
     _url_utilpy = "https://gist.githubusercontent.com/pinxau1000/8817d4ef0ed766c78bac8e6feafc8b47/raw/util.py"
     print("Downloading util.py from:\n" + _url_utilpy)
@@ -98,12 +99,31 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
 @click.option("--kernel",
               default=10,
               help="Kernel aperture")
+@click.option("--crop_corner",
+              default=str([480, 110]),
+              help="The upper left corner of the crop area as list. The point "
+                   "with coordinates x=480 and y=110 is passed as [480,110].")
+@click.option("--crop_size",
+              default=64,
+              type=int,
+              help="The size of the crop area")
 @click.option("--save",
               default="output_MeanFilter_Anchor",
               type=str,
               help="The save name(s) of the output figure(s)")
-def mean_filter_anchor(image, kernel, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def mean_filter_anchor(image, kernel, crop_corner, crop_size, save, dpi, num):
     image = util.load_image_RGB(image)
+    crop_corner = json.loads(crop_corner)
 
     # Initialize the anchor_images as list. Values are assigned on the for-loop
     # Initializes the kernel_max which is the maximum kernel value from Mean
@@ -111,20 +131,17 @@ def mean_filter_anchor(image, kernel, save):
     anchor_images = []
     titles_images = []
 
-
     for a in range(0, kernel, round((kernel - 1) / 2) - 1):
         anchor_images.append(cv.blur(image, (kernel, kernel),
                                      anchor=(a, a)))
         titles_images.append(f"Anchor at ({a}, {a})")
 
     # Crop blurred images to better see the effect of anchor.
-    corner = (480, 110)
-    crop = 64
     anchor_images_crop = []
     for i in range(len(anchor_images)):
         anchor_images_crop.append(anchor_images[i]
-                                  [corner[1]:corner[1] + crop,
-                                  corner[0]:corner[0] + crop])
+                                  [crop_corner[1]:crop_corner[1] + crop_size,
+                                  crop_corner[0]:crop_corner[0] + crop_size])
 
     # Saves individual the images.
     # util.saveImages(anchor_images_crop, titles_images, dpi=300,
@@ -143,11 +160,15 @@ def mean_filter_anchor(image, kernel, save):
                           show=True,
                           main_title=f"Mean Filter Anchor @ Kernel "
                                      f"{kernel}x{kernel} - cv.blur",
-                          num=201,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

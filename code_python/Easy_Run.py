@@ -1,7 +1,7 @@
 import subprocess
 import sys
 
-_PYTHON_INTERPRETER = sys.executable + " -i"
+_PYTHON_INTERPRETER = sys.executable
 _CURRENT_DIRECTORY = sys.path[0]
 
 _opt = ""

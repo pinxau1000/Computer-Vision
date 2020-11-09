@@ -106,7 +106,17 @@ _FULL_PATH_ORIG = path.join(_PATH_2_DATA, _IMG_ORIG_NAME)
               default="output_ScharrFilter",
               type=str,
               help="The save name(s) of the output figure(s)")
-def scharr_filter(image, filter_params, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def scharr_filter(image, filter_params, save, dpi, num):
     image = util.load_image_RGB(image)
     filter_params = json.loads(filter_params)
 
@@ -148,12 +158,16 @@ def scharr_filter(image, filter_params, save):
                           titles_images,
                           show=True,
                           main_title="Scharr Filter - cv.Scharr",
-                          num=300,
-                          dpi=300,
-                          cmap="gray")
+                          cmap="gray",
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

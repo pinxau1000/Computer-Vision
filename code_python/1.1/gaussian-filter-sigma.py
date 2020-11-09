@@ -103,7 +103,8 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
               help="The sigmaY values to be evaluated")
 @click.option("--crop_corner",
               default=str([480, 110]),
-              help="The upper left corner of the crop area")
+              help="The upper left corner of the crop area as list. The point "
+                   "with coordinates x=480 and y=110 is passed as [480,110].")
 @click.option("--crop_size",
               default=64,
               type=int,
@@ -112,8 +113,18 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
               default="output_GaussianFilter_Sigma",
               type=str,
               help="The save name(s) of the output figure(s)")
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
 def gaussian_filter_sigma(image, sigma_x, sigma_y, crop_corner, crop_size,
-                          save):
+                          save, dpi, num):
     image = util.load_image_RGB(image)
     sigma_x = json.loads(sigma_x)
     sigma_y = json.loads(sigma_y)
@@ -166,11 +177,15 @@ def gaussian_filter_sigma(image, sigma_x, sigma_y, crop_corner, crop_size,
                           show=True,
                           main_title="Gaussian Filter Sigmas @ Kernel 9x9 - "
                                      "cv.GaussianBlur",
-                          num=401,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

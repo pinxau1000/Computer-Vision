@@ -103,7 +103,17 @@ _FULL_PATH_NOISE = path.join(_PATH_2_DATA, _IMG_NOISE_NAME)
               default="output_MedianFilter",
               type=str,
               help="The save name(s) of the output figure(s)")
-def median_filter(image, kernels, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def median_filter(image, kernels, save, dpi, num):
     image = util.load_image_RGB(image)
     kernels = json.loads(kernels)
 
@@ -126,11 +136,15 @@ def median_filter(image, kernels, save):
                           plot_titles,
                           show=True,
                           main_title="Median Filter - cv.medianBlur",
-                          num=300,
-                          dpi=300)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

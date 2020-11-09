@@ -121,8 +121,18 @@ _FULL_PATH_ORIG = path.join(_PATH_2_DATA, _IMG_ORIG_NAME)
               default="output_SobelFilter",
               type=str,
               help="The save name(s) of the output figure(s)")
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
 def sobel_filter(image, deriv_x, deriv_y, ksize, threshold,
-                 filter_params, save):
+                 filter_params, save, dpi, num):
     image = util.load_image_RGB(image)
     deriv_x = json.loads(deriv_x)
     deriv_y = json.loads(deriv_y)
@@ -202,25 +212,32 @@ def sobel_filter(image, deriv_x, deriv_y, ksize, threshold,
                           plot_titles,
                           show=True,
                           main_title="Sobel Filter - cv.Sobel",
-                          num=200,
-                          dpi=300,
-                          cmap="gray")
+                          cmap="gray",
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
 
+    if num is not None:
+        num += 1
     # Plots the images.
     fig = util.plotImages(sobel_images_dxdy,
                           titles_images_dxdy,
                           show=True,
                           main_title="Sobel Filter - cv.Sobel",
                           cols=2,
-                          num=201,
-                          dpi=300,
-                          cmap="turbo")
+                          cmap="turbo",
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save + "_MagAng")
+    if save != "None":
+        fig.savefig(save + "_MagAng")
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

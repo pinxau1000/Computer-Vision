@@ -121,7 +121,17 @@ _FULL_PATH_HARRIS = path.join(_PATH_2_DATA, _IMG_HARRIS_NAME)
               default="output_CustomHarrisCornerDetector",
               type=str,
               help="The save name(s) of the output figure(s)")
-def my_harris(image, bsize, ksize, k, threshold, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def my_harris(image, bsize, ksize, k, threshold, save, dpi, num):
 
     assert type(bsize) is int, "blockSize must be type int"
     assert type(ksize) is int, "ksize must be type int"
@@ -208,11 +218,15 @@ def my_harris(image, bsize, ksize, k, threshold, save):
                     ["Orig Image", "Flat", "Edges", "Corners"],
                     main_title="My Harris",
                     show=True,
-                    dpi=300,
-                    num=1000)
+                          num=num,
+                          dpi=dpi)
 
     # Saves the figure.
-    fig.savefig(save)
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":

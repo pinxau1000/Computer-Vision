@@ -122,7 +122,17 @@ _FULL_PATH_HARRIS = path.join(_PATH_2_DATA, _IMG_HARRIS_NAME)
               default="output_HarrisCornerDetector_Compare",
               type=str,
               help="The save name(s) of the output figure(s)")
-def my_harris_compare(image, bsize, ksize, k, threshold, save):
+@click.option("--dpi",
+              default=None,
+              type=int,
+              help="Quality of the figure window generated. If None its the "
+                   "default 100 dpi.")
+@click.option("--num",
+              default=None,
+              type=int,
+              help="Number of the figure window generated. If None its "
+                   "cumulative.")
+def my_harris_compare(image, bsize, ksize, k, threshold, save, dpi, num):
     assert type(bsize) is int, "blockSize must be type int"
     assert type(ksize) is int, "ksize must be type int"
     assert type(k) is float, "k must be type float"
@@ -203,10 +213,15 @@ def my_harris_compare(image, bsize, ksize, k, threshold, save):
                           ["Orig Image", "OpenCV", "Custom", "Differences"],
                           main_title="Harris Algorithm Comparison",
                           show=True,
-                          dpi=300,
-                          num=1100)
+                          num=num,
+                          dpi=dpi)
 
-    fig.savefig(save)
+    # Saves the figure.
+    if save != "None":
+        fig.savefig(save)
+
+    # Wait for a key press to close figures
+    input("Press Enter to continue...")
 
 
 if __name__ == "__main__":
