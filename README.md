@@ -27,6 +27,27 @@ Work developed by **José Rosa** and **Ricardo Silva** as 1st Assigment of Compu
   </tr>
 </table>
 
+### Recomendations
+###### Run these scripts on a virtual environment [[Official Python Guide Here](https://docs.python.org/3/tutorial/venv.html)]
+1. If you don't have Python 3.8 installed we recomend that you install it on your machine! **Don't add it to PATH if you will not use it as you main Python Interpreter.**
+   - You can use other version of the Python Interpreter but you may experience compatability issues. If so in the rest of this guide where we refer as Python 3.8 you should refer to your version of Python.
+2. Go to the project folder, open CMD/Terminal instance there and run:
+   ```sh
+   [PATH TO PYTHON 3.8 EXECUTABLE] -m venv venv
+   ```
+   Example:
+   ```sh
+   C:\Users\[USER]\AppData\Local\Programs\Python\Python38\python.exe -m venv venv
+   ```
+   This will create a virtual environment with Python Interpreter 3.8 in the current directory.
+3. Run the following command on the console to activate the Virtual Environment:
+   ```sh
+   venv\Scripts\activate
+   ```
+4. Run and explore these examples!
+   - When running the functions on this repository the required packages should be installed automatically. You can install them manually by running the command ```pip install -r requirements.txt```
+
+
 ### Run
 ###### Help Commands
 Syntax: `python <script_name.py> --help`
