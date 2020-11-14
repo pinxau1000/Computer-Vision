@@ -1,11 +1,17 @@
 def install(package):
     from sys import executable
     from subprocess import check_call
-
+    print(f"Installing {package}...")
     check_call([executable, "-m", "pip", "install", package])
 
 
 from typing import Union
+
+try:
+    import numpy as np
+except ModuleNotFoundError:
+    install("numpy>=1.19,<1.19.4")
+    import numpy as np
 
 try:
     from matplotlib import pyplot as plt
@@ -14,12 +20,6 @@ except ModuleNotFoundError:
     install("matplotlib")
     from matplotlib import pyplot as plt
     from matplotlib.colors import Colormap
-
-try:
-    import numpy as np
-except ModuleNotFoundError:
-    install("numpy")
-    import numpy as np
 
 
 def plotImages(images: list, titles: list = None, num: int = None,
@@ -150,13 +150,6 @@ def saveImages(images: list,
         files.append(_fname)
 
     return
-
-
-def install(package):
-    from sys import executable
-    from subprocess import check_call
-
-    check_call([executable, "-m", "pip", "install", package])
 
 
 def checkPackage(packages: list = None) -> list:

@@ -30,16 +30,16 @@ except ModuleNotFoundError:
     import cv2 as cv
 
 try:
+    import numpy as np
+except ModuleNotFoundError:
+    util.install("numpy>=1.19,<1.19.4")
+    import numpy as np
+
+try:
     from matplotlib import pyplot as plt
 except ModuleNotFoundError:
     util.install("matplotlib")
     from matplotlib import pyplot as plt
-
-try:
-    import numpy as np
-except ModuleNotFoundError:
-    util.install("numpy")
-    import numpy as np
 
 try:
     from packaging import version
@@ -69,8 +69,9 @@ assert version.parse(plt.matplotlib.__version__).major >= 3 and \
     "This script requires MatPlotLib 3.3.0 or above!"
 
 assert version.parse(np.__version__).major >= 1 and \
-       version.parse(np.__version__).minor >= 19, \
-    "This script requires Numpy 1.19.0 or above!"
+       version.parse(np.__version__).minor >= 19 and \
+       version.parse(np.__version__).micro < 4, \
+    "This script requires Numpy version >= 1.19.0 and < 1.19.4 !"
 
 assert version.parse(click.__version__).major >= 7 and \
        version.parse(click.__version__).minor >= 1, \

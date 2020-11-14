@@ -1,7 +1,26 @@
+def install(package):
+    from sys import executable
+    from subprocess import check_call
+    print(f"Installing {package}...")
+    check_call([executable, "-m", "pip", "install", package])
+
+
 from typing import Union
-import numpy as np
-from matplotlib import pyplot as plt
-from matplotlib.colors import Colormap
+
+try:
+    import numpy as np
+except ModuleNotFoundError:
+    install("numpy>=1.19,<1.19.4")
+    import numpy as np
+
+try:
+    from matplotlib import pyplot as plt
+    from matplotlib.colors import Colormap
+except ModuleNotFoundError:
+    install("matplotlib")
+    from matplotlib import pyplot as plt
+    from matplotlib.colors import Colormap
+
 
 def plotImages(images: list, titles: list = None, num: int = None,
                show: bool = False, rows: int = None, cols: int = None,
@@ -53,7 +72,6 @@ def animateImages(images: list,
                   repeat_delay: int = 1000,
                   cmap: Union[str, Colormap] = 'viridis',
                   verbose: bool = False):
-
     assert type(images) is list, "Images should be list or dict."
     assert len(images) != 0, "Images is empty."
 
@@ -86,7 +104,7 @@ def animateImages(images: list,
             for _ in _str_stdout:
                 stdout.write("\b")
             _str_stdout = f"Compiling figures: " \
-                          f"{int(np.round(i*100/n_img))} % / 100 %"
+                          f"{int(np.round(i * 100 / n_img))} % / 100 %"
             stdout.write(_str_stdout)
 
     stdout.write("\nCreating animation object, this may take a while.")
@@ -132,13 +150,6 @@ def saveImages(images: list,
         files.append(_fname)
 
     return
-
-
-def install(package):
-    from sys import executable
-    from subprocess import check_call
-
-    check_call([executable, "-m", "pip", "install", package])
 
 
 def checkPackage(packages: list = None) -> list:
@@ -236,5 +247,3 @@ def load_image_RGB(path: str):
     from cv2 import COLOR_BGR2RGB
     assert exists(path), path + " not found!"
     return cvtColor(imread(path), COLOR_BGR2RGB)
-
-

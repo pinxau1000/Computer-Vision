@@ -1,0 +1,8 @@
+click>=7.1
+matplotlib>=3.3
+opencv-python>=4.4.0
+packaging>=20.4
+
+# There is a error with numpy 1.19.4 on windows. It will be fixed around January 2021.
+# https://developercommunity.visualstudio.com/content/problem/1207405/fmod-after-an-update-to-windows-2004-is-causing-a.html
+numpy>=1.19,<1.19.4
